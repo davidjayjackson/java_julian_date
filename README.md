@@ -23,6 +23,13 @@ caveats, and worked examples for all 10 functions.
 > In Calc's UI, arguments are separated by **semicolons**:
 > `=TO_JULIAN_ORDINAL(A1; 5)`.
 
+**Just want to install and use it?** See
+**[docs/HOWTO.md](docs/HOWTO.md)** — download the pre-built
+[v1.0.0 release](https://github.com/davidjayjackson/java_julian_date/releases/tag/v1.0.0),
+install it, and try it on a real worked example
+(`demo/EG_And-Demo.ods`, real AAVSO variable-star photometry data). No build
+tools required.
+
 ---
 
 ## 1. Prerequisites & build
@@ -74,6 +81,9 @@ LibreOffice 26.2 instance.
 | `registration/{manifest,description}.xml`, `MANIFEST.MF` | `.oxt` manifest, extension metadata, jar `RegistrationClassName` |
 | `build.sh` / `build.ps1` | `unoidl-write` → `javamaker` → `javac` (Java 8) → `jar` → zip `.oxt` |
 | `tools/test_julian.py` | Headless end-to-end test (all 10 functions + round-trips + error paths) |
+| `tools/build_demo.py` | Regenerates `demo/EG_And-Demo.ods` |
+| `demo/EG_And-Demo.ods` | Worked example: real AAVSO variable-star photometry data with add-in formulas converting its Julian Date column to calendar dates |
+| `docs/HOWTO.md` | End-user guide: install the pre-built release and use it, no build tools needed |
 | `docs/INSTALL.md` | Full per-platform build / install / run instructions |
 | `docs/FUNCTIONS.md` | Complete function reference: every argument, epoch handling, calendar-reform caveats, worked examples |
 
