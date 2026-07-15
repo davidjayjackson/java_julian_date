@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
-"""Regenerate demo/EG_And-Demo.ods with live add-in formulas.
+"""Regenerate demo/juliandate_demo.ods from demo/demo.csv.
 
-The base file is real AAVSO photometry data for the symbiotic variable star
-EG Andromedae (columns: JD, Magnitude, Band, Observer Code). This script adds
-two demonstration columns computed with the Julian Date add-in:
+demo/demo.csv is a real AAVSO (aavso.org) photometry export for the
+symbiotic variable star EG Andromedae -- one row per observation, full
+AAVSO column set (JD, Magnitude, Band, Observer Code, etc.). The demo
+workbook keeps a curated 4-column subset and adds a live add-in formula:
 
-  E: Calendar Date  = FROM_JULIAN_DATE(A)   (formatted as YYYY-MM-DD)
-  F: Ordinal YYYYDDD = TO_JULIAN_ORDINAL(FROM_JULIAN_DATE(A))
+  A: Date       = FROM_JULIAN_DATE(B)   (formatted as YYYY-MM-DD)
+  B: JD         (from the CSV, unchanged)
+  C: Magnitude  (from the CSV, unchanged)
+  D: Star Name  (from the CSV, unchanged)
 
 showing the practical case the add-in exists for: astronomical software
-routinely reports timestamps as Julian Dates, and this converts a whole
-column of them to ordinary calendar dates in one fill.
+routinely reports timestamps as Julian Dates, and FROM_JULIAN_DATE converts
+them back to ordinary calendar dates.
 
 Requires the add-in to be installed in the target LibreOffice profile (see
 docs/INSTALL.md) and a headless LibreOffice listening on a UNO socket:
@@ -19,6 +22,7 @@ docs/INSTALL.md) and a headless LibreOffice listening on a UNO socket:
         --accept="socket,host=localhost,port=2002;urp;" &
     "$LO_HOME/program/python" tools/build_demo.py
 """
+import csv
 import os
 import sys
 
@@ -26,7 +30,8 @@ import uno
 from com.sun.star.beans import PropertyValue
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DEMO_PATH = os.path.join(ROOT, "demo", "EG_And-Demo.ods")
+CSV_PATH = os.path.join(ROOT, "demo", "demo.csv")
+DEMO_PATH = os.path.join(ROOT, "demo", "juliandate_demo.ods")
 
 
 def make_prop(name, value):
@@ -47,53 +52,56 @@ def connect():
     return ctx, desktop
 
 
+def read_rows():
+    with open(CSV_PATH, newline="", encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            yield float(row["JD"]), float(row["Magnitude"]), row["Star Name"]
+
+
 def main():
+    rows = list(read_rows())
+    print("Data rows: %d" % len(rows))
+
     ctx, desktop = connect()
-    url = uno.systemPathToFileUrl(DEMO_PATH)
-    doc = desktop.loadComponentFromURL(url, "_blank", 0, (make_prop("Hidden", True),))
+    doc = desktop.loadComponentFromURL(
+        "private:factory/scalc", "_blank", 0, (make_prop("Hidden", True),))
     sheet = doc.Sheets.getByIndex(0)
+    sheet.Name = "demo"
 
-    used = sheet.createCursor()
-    used.gotoEndOfUsedArea(False)
-    last_row = used.RangeAddress.EndRow  # 0-based; row 0 is the header
-    print("Data rows: %d" % last_row)
+    headers = ["Date", "JD", "Magnitude", "Star Name"]
+    for c, h in enumerate(headers):
+        sheet.getCellByPosition(c, 0).setString(h)
 
-    sheet.getCellByPosition(4, 0).setString("Calendar Date")
-    sheet.getCellByPosition(5, 0).setString("Ordinal YYYYDDD")
-
-    formulas = []
-    for r in range(1, last_row + 1):
+    for r, (jd, mag, star) in enumerate(rows, start=1):
         row_ref = r + 1  # 1-based spreadsheet row number
-        formulas.append([
-            "=FROM_JULIAN_DATE(A%d)" % row_ref,
-            "=TO_JULIAN_ORDINAL(FROM_JULIAN_DATE(A%d))" % row_ref,
-        ])
+        sheet.getCellByPosition(0, r).setFormula("=FROM_JULIAN_DATE(B%d)" % row_ref)
+        sheet.getCellByPosition(1, r).setValue(jd)
+        sheet.getCellByPosition(2, r).setValue(mag)
+        sheet.getCellByPosition(3, r).setString(star)
 
-    target = sheet.getCellRangeByPosition(4, 1, 5, last_row)
-    target.setFormulaArray(tuple(tuple(row) for row in formulas))
-
-    # Format the Calendar Date column as YYYY-MM-DD instead of a raw serial.
+    # Format the Date column as YYYY-MM-DD instead of a raw serial.
     formats = doc.getNumberFormats()
     locale = uno.createUnoStruct("com.sun.star.lang.Locale")
     fmt_str = "YYYY-MM-DD"
     key = formats.queryKey(fmt_str, locale, False)
     if key == -1:
         key = formats.addNew(fmt_str, locale)
-    date_col = sheet.getCellRangeByPosition(4, 1, 4, last_row)
+    date_col = sheet.getCellRangeByPosition(0, 1, 0, len(rows))
     date_col.NumberFormat = key
 
     doc.calculateAll()
 
     # Spot-check the first data row didn't error (e.g. add-in not installed).
-    first = sheet.getCellByPosition(4, 1)
+    first = sheet.getCellByPosition(0, 1)
     if first.getError() != 0:
-        print("WARNING: E2 has error %d -- is the add-in installed? "
+        print("WARNING: A2 has error %d -- is the add-in installed? "
               "(unopkg add --force build/JulianDate.oxt)" % first.getError())
         sys.exit(1)
-    print("E2 (Calendar Date) = %s" % first.getString())
-    print("F2 (Ordinal)       = %s" % sheet.getCellByPosition(5, 1).getString())
+    print("A2 (Date) = %s" % first.getString())
 
-    doc.store()
+    url = uno.systemPathToFileUrl(DEMO_PATH)
+    doc.storeToURL(url, (make_prop("FilterName", "calc8"),))
     doc.close(False)
     print("Saved %s" % DEMO_PATH)
 

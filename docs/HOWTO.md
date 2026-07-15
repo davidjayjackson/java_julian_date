@@ -82,32 +82,31 @@ for `YYDDD`).
 
 ## 5. Worked example with real data
 
-`demo/EG_And-Demo.ods` is a real photometry dataset from the
+`demo/juliandate_demo.ods` is a real photometry dataset from the
 [AAVSO](https://www.aavso.org/) (American Association of Variable Star
 Observers) for **EG Andromedae**, a well-known symbiotic variable star —
-27,580 brightness observations. Astronomical data like this is universally
-timestamped in Julian Date, exactly the problem this add-in solves.
+382 brightness observations spanning July 2025 to July 2026. Astronomical
+data like this is universally timestamped in Julian Date, exactly the
+problem this add-in solves.
 
 Open the file (with the add-in installed) and you'll see:
 
 | Column | Contents |
 |---|---|
-| A `JD` | The observation's Julian Date, as reported by AAVSO (e.g. `2434741.3`) |
-| B `Magnitude` | The star's observed brightness |
-| C `Band` | Photometric filter (e.g. `Vis.` for visual) |
-| D `Observer Code` | The AAVSO observer's code |
-| E `Calendar Date` | **Added by this add-in**: `=FROM_JULIAN_DATE(A2)`, formatted as `YYYY-MM-DD` |
-| F `Ordinal YYYYDDD` | **Added by this add-in**: `=TO_JULIAN_ORDINAL(FROM_JULIAN_DATE(A2))` |
+| A `Date` | **Computed by this add-in**: `=FROM_JULIAN_DATE(B2)`, formatted as `YYYY-MM-DD` |
+| B `JD` | The observation's Julian Date, as reported by AAVSO (e.g. `2460859.543`) |
+| C `Magnitude` | The star's observed brightness |
+| D `Star Name` | The AAVSO star designation (`EG And`) |
 
-Columns E and F are live formulas — select any cell in them and you'll see
-the `FROM_JULIAN_DATE`/`TO_JULIAN_ORDINAL` formula in the formula bar. If you
-see `#NAME?` there instead of a date, it means you opened this file without
-installing the add-in first — go back to step 2.
+Column A is a live formula — select any cell in it and you'll see the
+`FROM_JULIAN_DATE` formula in the formula bar. If you see `#NAME?` there
+instead of a date, it means you opened this file without installing the
+add-in first — go back to step 2.
 
 This is exactly the kind of task the add-in is for: taking a column of raw
 Julian Dates from scientific/astronomical software and turning it into
-ordinary calendar dates you can sort, filter, and chart by month or year in
-Calc.
+ordinary calendar dates you can sort, filter, and chart by month.
 
-To regenerate this demo file yourself (e.g. after rebuilding the add-in from
-source), see `tools/build_demo.py`.
+The underlying data is in `demo/demo.csv` (the full AAVSO export, unfiltered
+columns). To regenerate `juliandate_demo.ods` from it yourself (e.g. after
+rebuilding the add-in from source), see `tools/build_demo.py`.
