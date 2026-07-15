@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oor:component-data
+    xmlns:oor="http://openoffice.org/2001/registry"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    oor:name="CalcAddIns" oor:package="org.openoffice.Office">
+  <node oor:name="AddInInfo">
+    <node oor:name="com.example.juliandate.JulianDateImpl" oor:op="replace">
+      <node oor:name="AddInFunctions">
+
+        <!-- =TO_JULIAN_DAY(date) -->
+        <node oor:name="toJulianDay" oor:op="replace">
+          <prop oor:name="DisplayName"><value xml:lang="en">TO_JULIAN_DAY</value></prop>
+          <prop oor:name="Description"><value xml:lang="en">Returns the (integer) Julian Day Number for a Calc date.</value></prop>
+          <prop oor:name="Category"><value>Add-In</value></prop>
+          <prop oor:name="CompatibilityName"><value xml:lang="en">TO_JULIAN_DAY</value></prop>
+          <node oor:name="Parameters">
+            <node oor:name="date" oor:op="replace">
+              <prop oor:name="DisplayName"><value xml:lang="en">date</value></prop>
+              <prop oor:name="Description"><value xml:lang="en">A Calc date serial (or cell reference).</value></prop>
+            </node>
+          </node>
+        </node>
+
+        <!-- =TO_JULIAN_DATE(date) -->
+        <node oor:name="toJulianDate" oor:op="replace">
+          <prop oor:name="DisplayName"><value xml:lang="en">TO_JULIAN_DATE</value></prop>
+          <prop oor:name="Description"><value xml:lang="en">Returns the Julian Date (with time-of-day fraction) for a Calc date/time.</value></prop>
+          <prop oor:name="Category"><value>Add-In</value></prop>
+          <prop oor:name="CompatibilityName"><value xml:lang="en">TO_JULIAN_DATE</value></prop>
+          <node oor:name="Parameters">
+            <node oor:name="date" oor:op="replace">
+              <prop oor:name="DisplayName"><value xml:lang="en">date</value></prop>
+              <prop oor:name="Description"><value xml:lang="en">A Calc date/time serial (or cell reference).</value></prop>
+            </node>
+          </node>
+        </node>
+
+        <!-- =FROM_JULIAN_DAY(jdn) -->
+        <node oor:name="fromJulianDay" oor:op="replace">
+          <prop oor:name="DisplayName"><value xml:lang="en">FROM_JULIAN_DAY</value></prop>
+          <prop oor:name="Description"><value xml:lang="en">Converts a Julian Day Number to a Calc date serial.</value></prop>
+          <prop oor:name="Category"><value>Add-In</value></prop>
+          <prop oor:name="CompatibilityName"><value xml:lang="en">FROM_JULIAN_DAY</value></prop>
+          <node oor:name="Parameters">
+            <node oor:name="jdn" oor:op="replace">
+              <prop oor:name="DisplayName"><value xml:lang="en">jdn</value></prop>
+              <prop oor:name="Description"><value xml:lang="en">A Julian Day Number.</value></prop>
+            </node>
+          </node>
+        </node>
+
+        <!-- =FROM_JULIAN_DATE(jd) -->
+        <node oor:name="fromJulianDate" oor:op="replace">
+          <prop oor:name="DisplayName"><value xml:lang="en">FROM_JULIAN_DATE</value></prop>
+          <prop oor:name="Description"><value xml:lang="en">Converts a Julian Date (with fractional day) to a Calc date/time serial.</value></prop>
+          <prop oor:name="Category"><value>Add-In</value></prop>
+          <prop oor:name="CompatibilityName"><value xml:lang="en">FROM_JULIAN_DATE</value></prop>
+          <node oor:name="Parameters">
+            <node oor:name="jd" oor:op="replace">
+              <prop oor:name="DisplayName"><value xml:lang="en">jd</value></prop>
+              <prop oor:name="Description"><value xml:lang="en">A Julian Date, optionally with a fractional day/time.</value></prop>
+            </node>
+          </node>
+        </node>
+
+        <!-- =TO_MJD(date) -->
+        <node oor:name="toMjd" oor:op="replace">
+          <prop oor:name="DisplayName"><value xml:lang="en">TO_MJD</value></prop>
+          <prop oor:name="Description"><value xml:lang="en">Returns the Modified Julian Date (JD - 2400000.5) for a Calc date/time.</value></prop>
+          <prop oor:name="Category"><value>Add-In</value></prop>
+          <prop oor:name="CompatibilityName"><value xml:lang="en">TO_MJD</value></prop>
+          <node oor:name="Parameters">
+            <node oor:name="date" oor:op="replace">
+              <prop oor:name="DisplayName"><value xml:lang="en">date</value></prop>
+              <prop oor:name="Description"><value xml:lang="en">A Calc date/time serial (or cell reference).</value></prop>
+            </node>
+          </node>
+        </node>
+
+        <!-- =FROM_MJD(mjd) -->
+        <node oor:name="fromMjd" oor:op="replace">
+          <prop oor:name="DisplayName"><value xml:lang="en">FROM_MJD</value></prop>
+          <prop oor:name="Description"><value xml:lang="en">Converts a Modified Julian Date to a Calc date/time serial.</value></prop>
+          <prop oor:name="Category"><value>Add-In</value></prop>
+          <prop oor:name="CompatibilityName"><value xml:lang="en">FROM_MJD</value></prop>
+          <node oor:name="Parameters">
+            <node oor:name="mjd" oor:op="replace">
+              <prop oor:name="DisplayName"><value xml:lang="en">mjd</value></prop>
+              <prop oor:name="Description"><value xml:lang="en">A Modified Julian Date.</value></prop>
+            </node>
+          </node>
+        </node>
+
+        <!-- =TO_JULIAN_ORDINAL(date; [digits]) -->
+        <node oor:name="toJulianOrdinal" oor:op="replace">
+          <prop oor:name="DisplayName"><value xml:lang="en">TO_JULIAN_ORDINAL</value></prop>
+          <prop oor:name="Description"><value xml:lang="en">Returns the ordinal day-of-year number (YYDDD or YYYYDDD; default YYYYDDD) for a Calc date.</value></prop>
+          <prop oor:name="Category"><value>Add-In</value></prop>
+          <prop oor:name="CompatibilityName"><value xml:lang="en">TO_JULIAN_ORDINAL</value></prop>
+          <node oor:name="Parameters">
+            <node oor:name="date" oor:op="replace">
+              <prop oor:name="DisplayName"><value xml:lang="en">date</value></prop>
+              <prop oor:name="Description"><value xml:lang="en">A Calc date serial (or cell reference).</value></prop>
+            </node>
+            <node oor:name="digits" oor:op="replace">
+              <prop oor:name="DisplayName"><value xml:lang="en">digits</value></prop>
+              <prop oor:name="Description"><value xml:lang="en">Optional: 5 for YYDDD or 7 for YYYYDDD. Omitted defaults to 7 (YYYYDDD).</value></prop>
+            </node>
+          </node>
+        </node>
+
+        <!-- =FROM_JULIAN_ORDINAL(ordinal) -->
+        <node oor:name="fromJulianOrdinal" oor:op="replace">
+          <prop oor:name="DisplayName"><value xml:lang="en">FROM_JULIAN_ORDINAL</value></prop>
+          <prop oor:name="Description"><value xml:lang="en">Converts a YYDDD/YYYYDDD ordinal day-of-year number (auto-detected by magnitude) to a Calc date serial.</value></prop>
+          <prop oor:name="Category"><value>Add-In</value></prop>
+          <prop oor:name="CompatibilityName"><value xml:lang="en">FROM_JULIAN_ORDINAL</value></prop>
+          <node oor:name="Parameters">
+            <node oor:name="ordinal" oor:op="replace">
+              <prop oor:name="DisplayName"><value xml:lang="en">ordinal</value></prop>
+              <prop oor:name="Description"><value xml:lang="en">A YYDDD or YYYYDDD ordinal day-of-year number; auto-detected by magnitude (below 100000 is YYDDD, otherwise YYYYDDD).</value></prop>
+            </node>
+          </node>
+        </node>
+
+        <!-- =GREGORIAN_TO_JULIAN(date) -->
+        <node oor:name="gregorianToJulian" oor:op="replace">
+          <prop oor:name="DisplayName"><value xml:lang="en">GREGORIAN_TO_JULIAN</value></prop>
+          <prop oor:name="Description"><value xml:lang="en">Reinterprets a proleptic Gregorian-calendar date as the equivalent proleptic Julian-calendar date.</value></prop>
+          <prop oor:name="Category"><value>Add-In</value></prop>
+          <prop oor:name="CompatibilityName"><value xml:lang="en">GREGORIAN_TO_JULIAN</value></prop>
+          <node oor:name="Parameters">
+            <node oor:name="date" oor:op="replace">
+              <prop oor:name="DisplayName"><value xml:lang="en">date</value></prop>
+              <prop oor:name="Description"><value xml:lang="en">A Calc date serial, read as a Gregorian-calendar date.</value></prop>
+            </node>
+          </node>
+        </node>
+
+        <!-- =JULIAN_TO_GREGORIAN(date) -->
+        <node oor:name="julianToGregorian" oor:op="replace">
+          <prop oor:name="DisplayName"><value xml:lang="en">JULIAN_TO_GREGORIAN</value></prop>
+          <prop oor:name="Description"><value xml:lang="en">Reinterprets a proleptic Julian-calendar date as the equivalent proleptic Gregorian-calendar date.</value></prop>
+          <prop oor:name="Category"><value>Add-In</value></prop>
+          <prop oor:name="CompatibilityName"><value xml:lang="en">JULIAN_TO_GREGORIAN</value></prop>
+          <node oor:name="Parameters">
+            <node oor:name="date" oor:op="replace">
+              <prop oor:name="DisplayName"><value xml:lang="en">date</value></prop>
+              <prop oor:name="Description"><value xml:lang="en">A Calc date serial, read as a Julian-calendar date.</value></prop>
+            </node>
+          </node>
+        </node>
+
+      </node>
+    </node>
+  </node>
+</oor:component-data>

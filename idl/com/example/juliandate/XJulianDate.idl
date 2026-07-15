@@ -1,0 +1,97 @@
+#include <com/sun/star/uno/XInterface.idl>
+#include <com/sun/star/lang/IllegalArgumentException.idl>
+
+module com { module example { module juliandate {
+
+    /** Add-in interface converting between Calc date serials and the two
+        common meanings of "Julian date":
+
+        <ul>
+          <li>the astronomical Julian Day Number / Julian Date / Modified
+              Julian Date, and</li>
+          <li>the business "ordinal" day-of-year format (YYDDD / YYYYDDD),
+              and</li>
+          <li>proleptic Julian-calendar &lt;-&gt; Gregorian-calendar
+              conversion, for historical dates.</li>
+        </ul>
+
+        All methods are pure computation (no I/O) and return synchronously.
+        Calc date serial arguments/results are <code>double</code>s using
+        Calc's default null date (1899-12-30 = serial 0); see
+        docs/FUNCTIONS.md for the exact epoch handling. Bad input raises
+        IllegalArgumentException, which Calc renders as a cell error value
+        rather than an exception string. */
+    interface XJulianDate
+    {
+        interface ::com::sun::star::uno::XInterface;
+
+        /** @param date a Calc date serial.
+            @returns the (integer-valued) Julian Day Number for that
+                calendar day. Declared as <code>double</code>, not a 64-bit
+                integer type, because Calc's Add-In bridge represents all
+                numeric results as double; JDN values are always exact in
+                double precision (well within 2^53). */
+        double toJulianDay( [in] double date )
+            raises ( ::com::sun::star::lang::IllegalArgumentException );
+
+        /** @param date a Calc date/time serial.
+            @returns the Julian Date, including the time-of-day fraction. */
+        double toJulianDate( [in] double date )
+            raises ( ::com::sun::star::lang::IllegalArgumentException );
+
+        /** @param jdn a Julian Day Number.
+            @returns the corresponding Calc date serial (no time component). */
+        double fromJulianDay( [in] double jdn )
+            raises ( ::com::sun::star::lang::IllegalArgumentException );
+
+        /** @param jd a Julian Date (with optional fractional day/time).
+            @returns the corresponding Calc date/time serial. */
+        double fromJulianDate( [in] double jd )
+            raises ( ::com::sun::star::lang::IllegalArgumentException );
+
+        /** @param date a Calc date/time serial.
+            @returns the Modified Julian Date (JD - 2400000.5). */
+        double toMjd( [in] double date )
+            raises ( ::com::sun::star::lang::IllegalArgumentException );
+
+        /** @param mjd a Modified Julian Date.
+            @returns the corresponding Calc date/time serial. */
+        double fromMjd( [in] double mjd )
+            raises ( ::com::sun::star::lang::IllegalArgumentException );
+
+        /** @param date a Calc date serial.
+            @param digits optional (declared as <em>any</em> so it may be
+                omitted from the formula): 5 for YYDDD, 7 for YYYYDDD.
+                Omitted defaults to 7 (YYYYDDD).
+            @returns the ordinal day-of-year number, e.g. 2025-01-15 ->
+                25015 or 2025015. Declared as <code>double</code> for the
+                same reason as {@link toJulianDay}. */
+        double toJulianOrdinal( [in] double date,
+                                 [in] any digits )
+            raises ( ::com::sun::star::lang::IllegalArgumentException );
+
+        /** @param ordinal a YYDDD or YYYYDDD ordinal day-of-year number;
+                auto-detected by magnitude (below 100000 is read as YYDDD,
+                otherwise YYYYDDD).
+            @returns the corresponding Calc date serial. */
+        double fromJulianOrdinal( [in] double ordinal )
+            raises ( ::com::sun::star::lang::IllegalArgumentException );
+
+        /** Reinterpret a proleptic Gregorian-calendar date as the
+            equivalent proleptic Julian-calendar date.
+            @param date a Calc date serial, read as a Gregorian calendar date.
+            @returns a Calc date serial whose displayed year/month/day are
+                the Julian-calendar reading of the same day count. */
+        double gregorianToJulian( [in] double date )
+            raises ( ::com::sun::star::lang::IllegalArgumentException );
+
+        /** Reinterpret a proleptic Julian-calendar date as the equivalent
+            proleptic Gregorian-calendar date.
+            @param date a Calc date serial, read as a Julian calendar date.
+            @returns a Calc date serial whose displayed year/month/day are
+                the Gregorian-calendar reading of the same day count. */
+        double julianToGregorian( [in] double date )
+            raises ( ::com::sun::star::lang::IllegalArgumentException );
+    };
+
+}; }; };
