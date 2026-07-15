@@ -1,5 +1,7 @@
 # java_julian_date
 
+[![Latest release](https://img.shields.io/github/v/release/davidjayjackson/java_julian_date)](https://github.com/davidjayjackson/java_julian_date/releases/latest)
+
 A free, open-source LibreOffice Calc add-in (UNO component, **Java**) that
 converts between calendar dates and both common meanings of "Julian date":
 
@@ -25,7 +27,7 @@ caveats, and worked examples for all 10 functions.
 
 **Just want to install and use it?** See
 **[docs/HOWTO.md](docs/HOWTO.md)** — download the pre-built
-[v1.0.0 release](https://github.com/davidjayjackson/java_julian_date/releases/tag/v1.0.0),
+[v1.0.1 release](https://github.com/davidjayjackson/java_julian_date/releases/tag/v1.0.1),
 install it, and try it on a real worked example
 (`demo/juliandate_demo.ods`, real AAVSO variable-star photometry data). No build
 tools required.

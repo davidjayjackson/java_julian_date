@@ -11,7 +11,7 @@ argument, error conditions, and worked examples), see
 ## 1. Download
 
 Get `JulianDate.oxt` from the
-[v1.0.0 release](https://github.com/davidjayjackson/java_julian_date/releases/tag/v1.0.0)
+[latest release](https://github.com/davidjayjackson/java_julian_date/releases/latest)
 page (it's attached as a release asset — no build tools needed).
 
 ## 2. Install
