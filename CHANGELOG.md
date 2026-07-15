@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.2
+
+- No functional changes to the add-in.
+- Verified the release end-to-end against `demo/juliandate_demo.ods`: the
+  file opens cleanly and shows `#NAME?`/`Err:525` (not a crash) before the
+  add-in is installed; after installing this build, all 382 rows of the
+  demo's `FROM_JULIAN_DATE` formula recompute with zero errors.
+
 ## 1.0.1
 
 - Docs/demo only, no functional changes to the add-in.
